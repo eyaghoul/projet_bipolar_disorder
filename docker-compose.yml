@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: bipolarguide_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: bipolarguide
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bipolarguide_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/bipolarguide
+      JWT_SECRET: ${JWT_SECRET:-bipolarguide-super-secret-jwt-key-2024}
+      JWT_EXPIRE_MINUTES: 1440
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+      STAGE1_MODEL_PATH: /app/models/stage1_MLP.pkl
+      STAGE2_MODEL_PATH: /app/models/stage2_RF.pkl
+      ALLOWED_ORIGINS: http://localhost,http://localhost:4200,http://frontend
+    volumes:
+      - ./stage1_MLP.pkl:/app/models/stage1_MLP.pkl:ro
+      - ./stage2_RF.pkl:/app/models/stage2_RF.pkl:ro
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bipolarguide_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
