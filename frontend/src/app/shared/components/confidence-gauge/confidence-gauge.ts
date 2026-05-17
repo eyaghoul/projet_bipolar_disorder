@@ -23,11 +23,11 @@ import { CommonModule } from '@angular/common';
   styles: [`
     .gauge-wrap { position: relative; width: 160px; height: 90px; margin: 0 auto; }
     .gauge-svg { width: 100%; height: 100%; overflow: visible; }
-    .gauge-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; stroke-linecap: round; }
+    .gauge-bg { fill: none; stroke: rgba(96, 89, 247, 0.12); stroke-width: 8; stroke-linecap: round; }
     .gauge-val { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease-out, stroke 0.3s; }
     .gauge-text { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; }
     .gauge-pct { font-size: 1.5rem; font-weight: 800; line-height: 1; }
-    .gauge-lbl { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+    .gauge-lbl { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
   `]
 })
 export class ConfidenceGaugeComponent {
@@ -36,5 +36,5 @@ export class ConfidenceGaugeComponent {
 
   get dashArray() { return Math.PI * 40; }
   get dashOffset() { return this.dashArray * (1 - this.score); }
-  get color() { return this.type === 'high' ? '#00b4d8' : '#22c55e'; }
+  get color() { return this.type === 'high' ? 'var(--primary-hover)' : '#22c55e'; }
 }

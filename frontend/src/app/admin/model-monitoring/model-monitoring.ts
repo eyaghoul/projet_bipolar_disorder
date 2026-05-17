@@ -74,7 +74,7 @@ export class ModelMonitoringComponent implements OnInit {
           borderWidth: 1
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#f0f8ff' } } } }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#1a1a2e' } } } }
     });
 
     new Chart(this.multiRef.nativeElement, {
@@ -88,15 +88,15 @@ export class ModelMonitoringComponent implements OnInit {
             this.stats.multiclass_distribution['Bipolar Type II'] || 0,
             this.stats.multiclass_distribution['Depressive Episode'] || 0
           ],
-          backgroundColor: 'rgba(99,102,241,0.5)',
-          borderColor: '#6366f1',
+          backgroundColor: 'rgba(96, 89, 247, 0.5)',
+          borderColor: '#6059f7',
           borderWidth: 1
         }]
       },
       options: { 
         responsive: true, maintainAspectRatio: false, 
         plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }
+        scales: { y: { beginAtZero: true, grid: { color: 'rgba(208, 217, 240, 0.6)' }, ticks: { color: '#4a5568' } }, x: { grid: { display: false }, ticks: { color: '#4a5568' } } }
       }
     });
   }

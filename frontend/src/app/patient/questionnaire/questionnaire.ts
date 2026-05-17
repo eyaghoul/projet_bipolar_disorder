@@ -104,7 +104,7 @@ import { NotificationService } from '../../core/services/notification.service';
         </div>
 
         <!-- Actions -->
-        <div class="flex justify-between mt-4 pt-3" style="border-top:1px solid rgba(255,255,255,0.1)">
+        <div class="flex justify-between mt-4 pt-3" style="border-top:1px solid var(--border-color)">
           <button class="btn btn-secondary" (click)="step = step - 1" [disabled]="step === 1 || loading">Back</button>
           <button class="btn btn-primary" (click)="nextStep()" [disabled]="loading">
             <span *ngIf="step < totalSteps">Next Step</span>
@@ -116,15 +116,15 @@ import { NotificationService } from '../../core/services/notification.service';
   `,
   styles: [`
     .progress-wrap { max-width: 700px; margin: 0 auto 2.5rem; }
-    .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 0.75rem; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, #00b4d8, #6366f1); transition: width 0.4s ease; }
-    .progress-labels { display: flex; justify-content: space-between; font-size: 0.8125rem; color: #64748b; font-weight: 500; }
-    .progress-labels span.active { color: #00b4d8; }
+    .progress-bar { height: 6px; background: rgba(96, 89, 247, 0.1); border-radius: 3px; overflow: hidden; margin-bottom: 0.75rem; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-hover), var(--primary)); transition: width 0.4s ease; }
+    .progress-labels { display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--text-muted); font-weight: 500; }
+    .progress-labels span.active { color: var(--primary-hover); }
     .q-group { margin-bottom: 2rem; }
-    .q-group label { display: block; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: #f0f8ff; }
+    .q-group label { display: block; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary); }
     .slider-wrap { display: flex; align-items: center; gap: 1rem; }
-    .val { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,180,216,0.15); color: #00b4d8; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
-    .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; padding-right: 48px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .val { width: 32px; height: 32px; border-radius: 8px; background: rgba(96, 89, 247, 0.15); color: var(--primary-hover); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; padding-right: 48px; text-transform: uppercase; letter-spacing: 0.05em; }
   `]
 })
 export class QuestionnaireComponent {

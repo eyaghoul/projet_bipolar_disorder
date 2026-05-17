@@ -90,12 +90,12 @@ Chart.register(...registerables);
   styles: [`
     .val-badge { 
       width: 40px; height: 40px; border-radius: 8px; 
-      background: #383838; color: #1976D2; border: 1px solid #404040;
+      background: var(--input-bg); color: var(--primary); border: 1px solid var(--border-color);
       display: flex; align-items: center; justify-content: center; 
       font-weight: 700; flex-shrink: 0; 
     }
     input[type="range"] {
-      accent-color: #1976D2;
+      accent-color: var(--primary);
     }
   `]
 })
@@ -174,12 +174,12 @@ export class MoodTrackerComponent implements OnInit {
           {
             label: 'Mood',
             data: moodData,
-            borderColor: '#1976D2',
-            backgroundColor: 'rgba(25, 118, 210, 0.1)',
+            borderColor: '#6059f7',
+            backgroundColor: 'rgba(96, 89, 247, 0.1)',
             borderWidth: 3,
             tension: 0.3,
             fill: true,
-            pointBackgroundColor: '#1976D2',
+            pointBackgroundColor: '#6059f7',
             pointRadius: 4
           }
         ]
@@ -188,17 +188,17 @@ export class MoodTrackerComponent implements OnInit {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#FFFFFF', font: { size: 12 } } }
+          legend: { labels: { color: '#1a1a2e', font: { size: 12 } } }
         },
         scales: {
           y: {
             min: 0, max: 10,
-            grid: { color: '#404040' },
-            ticks: { color: '#B0B0B0' }
+            grid: { color: 'rgba(208, 217, 240, 0.6)' },
+            ticks: { color: '#4a5568' }
           },
           x: {
             grid: { display: false },
-            ticks: { color: '#B0B0B0' }
+            ticks: { color: '#4a5568' }
           }
         }
       }

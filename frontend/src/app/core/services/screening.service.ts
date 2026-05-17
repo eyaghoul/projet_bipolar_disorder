@@ -18,4 +18,8 @@ export class ScreeningService {
   submitQuestionnaire(answers: Record<string, number>) {
     return this.http.post<any>(`${API}/questionnaire/submit`, { answers });
   }
+
+  runDetailedAnalysis(screeningId: string) {
+    return this.http.post<any>(`${API}/screening/${screeningId}/detailed-analysis`, {});
+  }
 }

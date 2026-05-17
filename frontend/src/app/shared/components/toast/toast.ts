@@ -29,19 +29,19 @@ import { NotificationService, Toast } from '../../../core/services/notification.
       border: 1px solid;
       cursor: pointer;
       animation: slideIn 0.3s cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
     }
     @keyframes slideIn {
       from { opacity: 0; transform: translateX(100%); }
       to   { opacity: 1; transform: translateX(0); }
     }
-    .toast-success { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); color: #22c55e; }
-    .toast-error   { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: #ef4444; }
-    .toast-info    { background: rgba(0,180,216,0.15); border-color: rgba(0,180,216,0.3); color: #00b4d8; }
-    .toast-warning { background: rgba(234,179,8,0.15); border-color: rgba(234,179,8,0.3); color: #eab308; }
+    .toast-success { background: rgba(46,125,50,0.1);   border-color: rgba(46,125,50,0.3);   color: #2E7D32; }
+    .toast-error   { background: rgba(211,47,47,0.1);   border-color: rgba(211,47,47,0.3);   color: #C62828; }
+    .toast-info    { background: rgba(96,89,247,0.1);   border-color: rgba(96,89,247,0.3);   color: var(--primary); }
+    .toast-warning { background: rgba(234,179,8,0.1);   border-color: rgba(234,179,8,0.4);   color: #92700a; }
     .toast-icon  { font-size: 1.25rem; flex-shrink: 0; }
-    .toast-msg   { flex: 1; font-size: 0.9rem; font-weight: 500; color: #f0f8ff; }
-    .toast-close { background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.875rem; padding: 0 0.25rem; }
+    .toast-msg   { flex: 1; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); }
+    .toast-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.875rem; padding: 0 0.25rem; }
   `],
 })
 export class ToastComponent {

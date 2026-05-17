@@ -2,18 +2,19 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { LogoComponent } from '../logo/logo';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, LogoComponent],
   template: `
     <nav class="navbar">
       <div class="nav-inner">
         <!-- Logo -->
         <a class="nav-brand" routerLink="/">
-          <span class="brand-icon">🧠</span>
-          <span class="brand-text">BipolarGuide</span>
+          <app-logo [size]="38"></app-logo>
+          <span class="brand-text">BIPOLAR GUIDE</span>
         </a>
 
         <!-- Nav links -->
@@ -85,70 +86,75 @@ import { AuthService } from '../../../core/services/auth.service';
   styles: [`
     .navbar {
       position: sticky; top: 0; z-index: 100;
-      background: #1A1A1A;
-      border-bottom: 1px solid #404040;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
       height: 64px;
+      box-shadow: 0 1px 8px rgba(96, 89, 247, 0.08);
     }
     .nav-inner {
       max-width: 1200px; margin: 0 auto;
       padding: 0 24px; height: 100%;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-brand {
-      display: flex; align-items: center; gap: 8px;
-      text-decoration: none;
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-text {
+      font-size: 16px; font-weight: 800; letter-spacing: 0.06em;
+      background: linear-gradient(135deg, #6059f7, #8c61ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .brand-icon { font-size: 24px; }
-    .brand-text { font-size: 20px; font-weight: 800; color: #1976D2; }
     
     .nav-links { display: flex; gap: 8px; }
     .nav-links a {
       padding: 8px 12px; border-radius: 8px;
-      color: #B0B0B0; text-decoration: none;
+      color: var(--text-secondary); text-decoration: none;
       font-size: 15px; font-weight: 500;
       transition: all 0.2s;
     }
-    .nav-links a:hover { color: #FFFFFF; background: #2D2D2D; }
-    .nav-links a.active { color: #FFFFFF; background: #1976D2; }
+    .nav-links a:hover { color: var(--primary); background: rgba(96, 89, 247, 0.06); }
+    .nav-links a.active { color: #fff; background: var(--primary); }
     
     .nav-right { display: flex; align-items: center; gap: 16px; }
     .plan-badge {
       padding: 4px 12px; border-radius: 100px;
       font-size: 12px; font-weight: 700;
-      background: #2D2D2D; color: #B0B0B0;
-      border: 1px solid #404040;
+      background: var(--bg-dark); color: var(--text-secondary);
+      border: 1px solid var(--border-color);
     }
-    .plan-badge.premium { border-color: #1976D2; color: #1976D2; }
+    .plan-badge.premium { border-color: var(--primary); color: var(--primary); background: rgba(96, 89, 247, 0.06); }
     
     .btn-upgrade {
       padding: 8px 16px; border-radius: 8px;
-      background: #1976D2; color: #fff;
+      background: var(--primary); color: #fff;
       text-decoration: none; font-size: 14px; font-weight: 600;
+      transition: all 0.2s;
     }
+    .btn-upgrade:hover { background: var(--primary-hover); }
     
     .avatar-wrap { position: relative; cursor: pointer; }
     .avatar {
       width: 36px; height: 36px; border-radius: 50%;
-      background: #1976D2; display: flex; align-items: center;
+      background: var(--primary); display: flex; align-items: center;
       justify-content: center; font-weight: 700; color: #fff;
     }
     
     .dropdown {
       position: absolute; top: 48px; right: 0;
-      background: #2D2D2D; border: 1px solid #404040;
+      background: var(--card-bg); border: 1px solid var(--border-color);
       border-radius: 12px; padding: 8px; min-width: 180px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 24px rgba(96, 89, 247, 0.12);
     }
     .dropdown-header { padding: 8px 12px; }
-    .d-name { font-weight: 600; font-size: 14px; }
-    .d-email { color: #B0B0B0; font-size: 12px; }
-    .dropdown hr { border: 0; border-top: 1px solid #404040; margin: 8px 0; }
+    .d-name  { font-weight: 600; font-size: 14px; color: var(--text-primary); }
+    .d-email { color: var(--text-muted); font-size: 12px; }
+    .dropdown hr { border: 0; border-top: 1px solid var(--border-color); margin: 8px 0; }
     .dropdown button {
       width: 100%; padding: 8px 12px; border-radius: 8px;
-      background: none; border: none; color: #D32F2F;
+      background: none; border: none; color: #C62828;
       text-align: left; cursor: pointer; font-size: 14px;
     }
-    .dropdown button:hover { background: rgba(211, 47, 47, 0.1); }
+    .dropdown button:hover { background: rgba(211, 47, 47, 0.08); }
   `],
 })
 export class NavbarComponent {

@@ -36,7 +36,7 @@ import { ConfidenceGaugeComponent } from '../../shared/components/confidence-gau
               <div class="badge" [class.badge-red]="s.binary_label === 'Bipolar'" [class.badge-green]="s.binary_label !== 'Bipolar'">
                 {{ s.binary_label }}
               </div>
-              <div class="badge badge-indigo ml-2" *ngIf="s.multiclass_label">{{ s.multiclass_label }}</div>
+              <div class="badge badge-purple ml-2" *ngIf="s.multiclass_label">{{ s.multiclass_label }}</div>
             </div>
             <app-confidence-gauge [score]="s.confidence" [type]="s.binary_label === 'Bipolar' ? 'high' : 'low'"></app-confidence-gauge>
           </div>
@@ -116,10 +116,10 @@ import { ConfidenceGaugeComponent } from '../../shared/components/confidence-gau
     </div>
   `,
   styles: [`
-    .tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+    .tabs { display: flex; gap: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
     .tabs button { background: none; border: none; padding: 0.75rem 1rem; color: var(--text-secondary); font-size: 1rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: var(--transition); }
     .tabs button:hover { color: var(--text-primary); }
-    .tabs button.active { color: var(--teal); border-bottom-color: var(--teal); }
+    .tabs button.active { color: var(--primary-hover); border-bottom-color: var(--primary-hover); }
     .ml-2 { margin-left: 0.5rem; }
     .w-100 { width: 100%; justify-content: center; }
   `]

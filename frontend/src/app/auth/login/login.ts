@@ -3,15 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { LogoComponent } from '../../shared/components/logo/logo';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, LogoComponent],
   template: `
     <div class="auth-page">
       <div class="auth-card fade-in-up">
-        <div class="auth-logo">🧠</div>
+        <div class="auth-logo">
+          <app-logo [size]="72"></app-logo>
+          <div class="brand-name">BIPOLAR GUIDE</div>
+        </div>
         <h1>Welcome Back</h1>
         <p class="auth-sub">Sign in to your BipolarGuide account</p>
 
@@ -34,14 +38,6 @@ import { NotificationService } from '../../core/services/notification.service';
           </button>
         </form>
 
-        <div class="demo-hint">
-          <p><strong>Demo credentials:</strong></p>
-          <p>Free Patient: patient_free1&#64;bipolarguide.com</p>
-          <p>Premium: patient_premium1&#64;bipolarguide.com</p>
-          <p>Professional: pro1&#64;bipolarguide.com</p>
-          <p>Password: Patient123! / Pro123!</p>
-        </div>
-
         <p class="auth-footer">
           Don't have an account?
           <a routerLink="/auth/register">Create one</a>
@@ -56,33 +52,31 @@ import { NotificationService } from '../../core/services/notification.service';
       padding: 24px;
     }
     .auth-card {
-      background: #2D2D2D;
-      border: 1px solid #404040;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 40px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 32px rgba(96, 89, 247, 0.1);
       text-align: center;
     }
-    .auth-logo { font-size: 40px; margin-bottom: 16px; }
-    h1 { margin-bottom: 8px; font-size: 24px; }
-    .auth-sub { color: #B0B0B0; margin-bottom: 32px; font-size: 15px; }
-    .auth-form { text-align: left; margin-bottom: 24px; }
-    .demo-hint {
-      background: #383838;
-      border: 1px solid #404040;
-      border-radius: 8px;
-      padding: 16px;
-      text-align: left;
-      font-size: 13px;
-      color: #B0B0B0;
-      margin-bottom: 24px;
+    .auth-logo {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; margin-bottom: 20px;
     }
-    .demo-hint strong { color: #1976D2; }
-    .demo-hint p { margin-bottom: 4px; }
-    .auth-footer { color: #757575; font-size: 14px; }
-    .auth-footer a { color: #1976D2; text-decoration: none; font-weight: 600; }
+    .brand-name {
+      font-size: 15px; font-weight: 800; letter-spacing: 0.1em;
+      background: linear-gradient(135deg, #6059f7, #8c61ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    h1 { margin-bottom: 8px; font-size: 24px; }
+    .auth-sub { color: var(--text-secondary); margin-bottom: 32px; font-size: 15px; }
+    .auth-form { text-align: left; margin-bottom: 24px; }
+    .auth-footer { color: var(--text-muted); font-size: 14px; }
+    .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
   `],
 })
 export class LoginComponent {

@@ -29,7 +29,7 @@ import { AdminService } from '../../core/services/admin.service';
             <tr *ngFor="let log of logs">
               <td class="text-muted" style="white-space:nowrap">{{ log.timestamp | date:'medium' }}</td>
               <td class="font-bold">{{ log.userEmail }}</td>
-              <td><div class="badge badge-indigo">{{ log.action }}</div></td>
+              <td><div class="badge badge-purple">{{ log.action }}</div></td>
               <td>{{ log.targetResource }}</td>
               <td class="text-muted" style="font-size:0.8rem;font-family:monospace">{{ log.targetId | slice:0:8 }}...</td>
               <td class="text-muted" style="font-size:0.8rem">{{ log.ip }}</td>

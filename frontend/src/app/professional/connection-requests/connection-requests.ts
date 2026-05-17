@@ -42,11 +42,11 @@ import { NotificationService } from '../../core/services/notification.service';
   styles: [`
     .request-item {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1.5rem; border: 1px solid rgba(0,180,216,0.15);
-      border-radius: 12px; margin-bottom: 1rem; background: rgba(22,32,50,0.4);
+      padding: 1.5rem; border: 1px solid var(--border-color);
+      border-radius: 12px; margin-bottom: 1rem; background: var(--bg-dark);
     }
     .req-info h4 { margin: 0 0 0.25rem 0; }
-    .req-msg { margin: 0.75rem 0 0 0; font-style: italic; color: #cbd5e1; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 8px; border-left: 3px solid #00b4d8; }
+    .req-msg { margin: 0.75rem 0 0 0; font-style: italic; color: var(--text-secondary); background: rgba(96, 89, 247, 0.04); padding: 0.75rem; border-radius: 8px; border-left: 3px solid var(--primary); }
     .req-actions { display: flex; gap: 0.75rem; }
   `]
 })
