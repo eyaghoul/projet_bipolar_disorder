@@ -12,7 +12,9 @@ export class ScreeningService {
   }
 
   getHistory(patientId: string) {
-    return this.http.get<any[]>(`${API}/screening/${patientId}/history`);
+    // Add timestamp to prevent caching
+    const timestamp = new Date().getTime();
+    return this.http.get<any[]>(`${API}/screening/${patientId}/history?t=${timestamp}`);
   }
 
   submitQuestionnaire(answers: Record<string, number>) {

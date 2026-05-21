@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Registration</title>
+</head>
+<body>
+    <h1>Test Doctor Registration</h1>
+    <button onclick="testRegistration()">Test Registration API</button>
+    <button onclick="testLogin()">Test Login API</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function testRegistration() {
+            const output = document.getElementById('output');
+            output.textContent = 'Testing registration...';
+            
+            try {
+                const response = await fetch('http://localhost:8002/api/v1/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: 'Test Doctor',
+                        email: 'testdoc' + Date.now() + '@example.com',
+                        password: 'password123',
+                        role: 'professional'
+                    })
+                });
+                
+                const data = await response.json();
+                output.textContent = 'Registration Response:\n' + JSON.stringify(data, null, 2);
+                
+                if (response.ok) {
+                    localStorage.setItem('test_token', data.access_token);
+                    localStorage.setItem('test_email', data.user.email);
+                }
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function testLogin() {
+            const output = document.getElementById('output');
+            const email = localStorage.getItem('test_email');
+            
+            if (!email) {
+                output.textContent = 'No test email found. Register first!';
+                return;
+            }
+            
+            output.textContent = 'Testing login with: ' + email;
+            
+            try {
+                const response = await fetch('http://localhost:8002/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: 'password123'
+                    })
+                });
+                
+                const data = await response.json();
+                output.textContent = 'Login Response:\n' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

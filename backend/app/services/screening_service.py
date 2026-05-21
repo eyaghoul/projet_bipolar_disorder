@@ -18,6 +18,10 @@ async def run_screening(patient_id: str, features: dict, plan: str) -> dict:
         result = predictor.predict_full(features)
     else:
         result = predictor.predict_binary(features)
+    
+    # Debug logging
+    print(f"[DEBUG] Model prediction result: {result}")
+    print(f"[DEBUG] Confidence value: {result['confidence']}, type: {type(result['confidence'])}")
 
     doc = {
         "patientId": patient_id,

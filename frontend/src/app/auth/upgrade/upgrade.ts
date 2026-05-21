@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
 
@@ -10,8 +10,8 @@ import { NotificationService } from '../../core/services/notification.service';
     <div class="page-wrapper">
       <div class="upgrade-hero fade-in-up">
         <div class="hero-badge">⭐ Premium Plan</div>
-        <h1>Unlock the Full Picture</h1>
-        <p>Get detailed AI insights, nearby provider search, and professional-grade PDF reports.</p>
+        <h1>{{ isDoctorRegistration ? 'Complete Your Professional Account' : 'Unlock the Full Picture' }}</h1>
+        <p>{{ isDoctorRegistration ? 'Upgrade to premium to access professional features and complete your registration.' : 'Get detailed AI insights, nearby provider search, and professional-grade PDF reports.' }}</p>
       </div>
 
       <div class="plans-grid fade-in-up">
@@ -54,7 +54,7 @@ import { NotificationService } from '../../core/services/notification.service';
           <button id="upgrade-btn" class="btn btn-primary btn-lg"
                   style="width:100%;justify-content:center;margin-top:auto"
                   (click)="upgrade()" [disabled]="loading">
-            {{ loading ? 'Processing…' : 'Upgrade Now — $9.99/mo' }}
+            {{ loading ? 'Processing…' : (isDoctorRegistration ? 'Upgrade & Complete Registration' : 'Upgrade Now — $9.99/mo') }}
           </button>
           <p class="plan-note">Cancel anytime · Secure mock payment</p>
         </div>
@@ -81,22 +81,90 @@ import { NotificationService } from '../../core/services/notification.service';
     @media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } }
   `],
 })
-export class UpgradeComponent {
+export class UpgradeComponent implements OnInit {
   loading = false;
+  isDoctorRegistration = false;
+  pendingRegistration: any = null;
+  
   auth = inject(AuthService);
   notif = inject(NotificationService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    // Check if this is part of doctor registration flow
+    this.route.queryParams.subscribe(params => {
+      if (params['context'] === 'doctor_registration') {
+        this.isDoctorRegistration = true;
+        // Retrieve pending registration data
+        const pendingData = sessionStorage.getItem('pending_registration');
+        if (pendingData) {
+          this.pendingRegistration = JSON.parse(pendingData);
+        }
+      }
+    });
+    
+    // If user is already premium and not in doctor registration flow, redirect
+    if (this.auth.isPremium() && !this.isDoctorRegistration) {
+      this.notif.success('You already have a premium account!');
+      this.auth.redirectToDashboard();
+    }
+  }
 
   upgrade() {
     this.loading = true;
+    
+    // Get fresh data from sessionStorage
+    const freshPendingData = sessionStorage.getItem('pending_registration');
+    const freshPending = freshPendingData ? JSON.parse(freshPendingData) : null;
+    const registrationData = freshPending || this.pendingRegistration;
+
+    // If this is a doctor registration flow and user is not logged in
+    if (this.isDoctorRegistration && registrationData && !this.auth.isLoggedIn()) {
+      // First register the user, then upgrade
+      this.auth.register(registrationData).subscribe({
+        next: () => {
+          // After successful registration, upgrade to premium
+          this.performUpgrade();
+        },
+        error: (e) => {
+          let errorMsg = 'Registration failed';
+          if (e.status === 422 && Array.isArray(e.error?.detail)) {
+            errorMsg = e.error.detail.map((err: any) => `${err.loc.join('.')} : ${err.msg}`).join(', ');
+          } else if (e.error?.detail) {
+            errorMsg = typeof e.error.detail === 'string' ? e.error.detail : JSON.stringify(e.error.detail);
+          }
+          this.notif.error(errorMsg);
+          this.loading = false;
+        },
+      });
+    } else {
+      // Normal upgrade flow for existing users
+      this.performUpgrade();
+    }
+  }
+
+  private performUpgrade() {
     this.auth.upgradeToPremium('mock_token').subscribe({
-      next: () => { 
-        this.notif.success('🎉 Upgraded to Premium!'); 
+      next: () => {
+        this.notif.success('🎉 Upgraded to Premium!');
+        // Clear pending registration data
+        sessionStorage.removeItem('pending_registration');
         // Set a flag to show the disorder analysis button
         localStorage.setItem('show_disorder_analysis', 'true');
-        this.router.navigate(['/patient/results']); 
+        
+        // Redirect based on context
+        if (this.isDoctorRegistration) {
+          this.notif.success('Professional account created successfully!');
+          this.auth.redirectToDashboard();
+        } else {
+          this.router.navigate(['/patient/results']);
+        }
       },
-      error: (e) => { this.notif.error(e.error?.detail ?? 'Upgrade failed'); this.loading = false; },
+      error: (e) => {
+        this.notif.error(e.error?.detail ?? 'Upgrade failed');
+        this.loading = false;
+      },
     });
   }
 }

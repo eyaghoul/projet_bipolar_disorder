@@ -278,11 +278,18 @@ export class ResultsComponent implements OnInit {
     // Check if user just upgraded and should see the analysis button
     this.showDisorderAnalysisButton = localStorage.getItem('show_disorder_analysis') === 'true' && this.isPremium;
     
+    // Force reload results (don't use cached data)
+    this.loadResults();
+  }
+
+  private loadResults() {
     const user = this.auth.currentUser();
     if (user?.id) {
+      this.loading = true;
       this.screeningService.getHistory(user.id).subscribe({
         next: (history) => {
           if (history.length > 0) {
+            // Always get the most recent result (first in array)
             this.result = history[0];
             // Only show analysis button if user has bipolar result and just upgraded
             this.showDisorderAnalysisButton = this.showDisorderAnalysisButton && 
@@ -291,8 +298,12 @@ export class ResultsComponent implements OnInit {
           }
           this.loading = false;
         },
-        error: () => this.loading = false
+        error: () => {
+          this.loading = false;
+        }
       });
+    } else {
+      this.loading = false;
     }
   }
 
